@@ -261,7 +261,7 @@
   }
   .howto-inner { max-width: 1100px; margin: 0 auto; }
   .steps {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
     margin-top: 60px;
   }
   .step { position: relative; }
@@ -437,6 +437,10 @@
   .footer-logo span { color: var(--accent); }
 
   /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .step:not(:last-child)::after { display: none; }
+  }
   @media (max-width: 768px) {
     nav { padding: 16px 20px; }
     .nav-links { display: none; }
@@ -545,7 +549,7 @@
 <section class="howto" id="howto">
   <div class="howto-inner">
     <div class="section-label">// jak to funguje</div>
-    <h2 class="section-title">Tři kroky<br/>k <em>výsledku</em></h2>
+    <h2 class="section-title">Čtyři kroky<br/>k <em>výsledku</em></h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
@@ -554,11 +558,16 @@
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <div class="step-title">Klikni Analyzovat</div>
-        <div class="step-desc">CANMapper prohledá zprávy a sestaví mapování.</div>
+        <div class="step-title">Vyber datamatice LINovské sběrnice</div>
+        <div class="step-desc">BUSMapper má v distribuci složku s připravenými datamaticemi. Stačí vybrat složku <strong style="color:var(--accent2)">LIN</strong> a mapování LIN kanálů je připraveno.</div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
+        <div class="step-title">Klikni Analyzovat</div>
+        <div class="step-desc">BUSMapper prohledá zprávy a sestaví mapování pro CAN i LIN kanály.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
         <div class="step-title">Výsledek okamžitě</div>
         <div class="step-desc">Přehledné zobrazení CAN i LIN kanálů s barevným kódováním. Každý BUS má vlastní barvu pro okamžitou orientaci.</div>
       </div>
@@ -632,7 +641,7 @@
     <div>
       <div class="section-label">// stáhnout</div>
       <h2>Připravený<br/>ke spuštění</h2>
-      <p>Archiv ve formátu .zip, který se jen extrahuje a spustí .exe. Potřebuje pouze .NET 8 Runtime který je na firemních PC k dispozici.</p>
+      <p>Archiv ve formátu .zip, který se jen extrahuje a spustí .exe. Potřebuje pouze .NET 10 Runtime který je na firemních PC k dispozici.</p>
       <ul class="req-list">
         <li>Windows 10 / 11 (x64)</li>
         <li>.NET 10.0 Runtime</li>
