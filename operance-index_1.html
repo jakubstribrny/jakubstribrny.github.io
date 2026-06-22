@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operance Software — Custom Software Development</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050b14;
+    --bg-soft:#0a1420;
+    --card:#0e1a28;
+    --card-2:#0c1622;
+    --border:rgba(255,255,255,0.08);
+    --border-soft:rgba(255,255,255,0.05);
+    --text:#f3f6fa;
+    --text-muted:#8fa1b3;
+    --text-dim:#5c7187;
+    --accent:#22d3ee;
+    --accent-2:#0ea5e9;
+    --accent-soft:rgba(34,211,238,0.12);
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .bg-grid{
+    position:fixed;inset:0;z-index:-2;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 75%);
+  }
+  .bg-glow{
+    position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+    width:900px;height:600px;z-index:-1;
+    background:radial-gradient(closest-side, rgba(34,211,238,0.16), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* NAV */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(5,11,20,0.7);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;max-width:var(--maxw);margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-0.01em;}
+  .logo-mark{
+    width:30px;height:30px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#04111c;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;
+  }
+  nav.links{display:flex;gap:32px;}
+  nav.links a{color:var(--text-muted);font-size:14.5px;font-weight:500;transition:color .2s;}
+  nav.links a:hover{color:var(--text);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;border-radius:999px;
+    font-size:14.5px;font-weight:600;
+    border:1px solid transparent;cursor:pointer;
+    transition:transform .15s, opacity .15s, background .2s;
+    white-space:nowrap;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--accent);color:#04141f;}
+  .btn-primary:hover{opacity:.92;}
+  .btn-ghost{background:rgba(255,255,255,0.04);color:var(--text);border-color:var(--border);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.07);}
+  .mobile-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;}
+
+  /* SECTION SHELLS */
+  section{padding:120px 0 0;position:relative;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);
+    border:1px solid rgba(34,211,238,0.25);
+    padding:6px 14px;border-radius:999px;
+    margin-bottom:20px;letter-spacing:0.01em;
+  }
+  h2{font-size:38px;line-height:1.2;letter-spacing:-0.02em;margin:0 0 16px;font-weight:700;}
+  .lead{color:var(--text-muted);font-size:17px;line-height:1.65;max-width:560px;}
+
+  /* HERO */
+  .hero{padding-top:96px;text-align:center;}
+  .hero .eyebrow{margin-bottom:26px;}
+  .hero h1{
+    font-size:52px;
+    line-height:1.16;
+    letter-spacing:-0.025em;
+    font-weight:800;
+    max-width:680px;
+    margin:0 auto 26px;
+  }
+  .hero h1 .hl{
+    color:var(--accent);
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .lead{margin:0 auto 36px;max-width:560px;text-align:center;font-size:16.5px;}
+  .hero-ctas{display:flex;gap:14px;justify-content:center;margin-bottom:80px;}
+
+  /* BEFORE/AFTER VISUAL */
+  .transform{
+    max-width:880px;margin:0 auto 0;
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+    padding:36px;
+    box-shadow:0 40px 100px -40px rgba(34,211,238,0.18);
+  }
+  .transform-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;}
+  .t-col{text-align:left;}
+  .t-label{font-size:12.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px;color:var(--text-dim);}
+  .t-col.after .t-label{color:var(--accent);}
+  .t-items{display:flex;flex-direction:column;gap:9px;}
+  .t-item{
+    font-size:13.5px;color:var(--text-muted);
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--border-soft);
+    border-radius:8px;padding:9px 12px;
+  }
+  .t-col.after .t-item{
+    background:rgba(34,211,238,0.07);
+    border-color:rgba(34,211,238,0.22);
+    color:var(--text);
+    font-weight:500;
+  }
+  .t-arrow{
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(34,211,238,0.12);border:1px solid rgba(34,211,238,0.3);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:16px;
+  }
+
+  /* CARDS GRID generic */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:28px 26px;
+  }
+  .card-icon{
+    width:40px;height:40px;border-radius:10px;
+    background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;margin-bottom:18px;
+  }
+  .card h3{font-size:17px;margin:0 0 8px;font-weight:600;}
+  .card p{font-size:14.5px;color:var(--text-muted);line-height:1.6;margin:0;}
+
+  /* HOW WE WORK */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:56px;}
+  .step{position:relative;padding-top:6px;}
+  .step-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:0.05em;margin-bottom:14px;}
+  .step h3{font-size:16.5px;margin:0 0 8px;font-weight:600;}
+  .step p{font-size:14px;color:var(--text-muted);line-height:1.6;margin:0;}
+  .step + .step{border-left:1px solid var(--border-soft);padding-left:22px;}
+
+  /* BRAVOWORK - light, proud, short */
+  .product-card{
+    margin-top:48px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    background:linear-gradient(160deg, rgba(34,211,238,0.06), rgba(255,255,255,0.015));
+    padding:40px;
+    display:flex;align-items:center;justify-content:space-between;gap:40px;
+  }
+  .product-left{flex:1;}
+  .product-badge{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .product-badge .mark{
+    width:38px;height:38px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#04141f;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;
+  }
+  .product-badge .name{font-weight:700;font-size:18px;}
+  .product-badge .tag{
+    font-size:11.5px;font-weight:600;color:var(--accent);
+    background:var(--accent-soft);border:1px solid rgba(34,211,238,0.25);
+    padding:3px 10px;border-radius:999px;margin-left:4px;
+  }
+  .product-left h3{font-size:23px;line-height:1.35;margin:0 0 14px;font-weight:700;letter-spacing:-0.01em;}
+  .product-left p{font-size:15px;color:var(--text-muted);line-height:1.65;margin:0 0 22px;max-width:480px;}
+  .tech-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+  .tech-tag{
+    font-size:12px;color:var(--text-dim);
+    background:rgba(255,255,255,0.035);border:1px solid var(--border-soft);
+    padding:5px 11px;border-radius:999px;
+  }
+  .product-right{
+    flex-shrink:0;width:230px;height:160px;
+    border-radius:var(--radius-md);
+    border:1px solid var(--border);
+    background:var(--card-2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    position:relative;overflow:hidden;
+  }
+  .product-right .glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%, rgba(34,211,238,0.18), transparent 60%);}
+  .match-pill{
+    font-size:12px;font-weight:600;color:var(--accent);
+    background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.25);
+    padding:6px 14px;border-radius:999px;z-index:1;
+  }
+  .match-line{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--text-dim);z-index:1;}
+  .match-line .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+
+  /* TEAM */
+  .team-card{text-align:left;}
+  .avatar{
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(135deg, rgba(34,211,238,0.25), rgba(14,165,233,0.15));
+    color:var(--accent);display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:15px;margin-bottom:18px;
+    border:1px solid rgba(34,211,238,0.25);
+  }
+  .team-card h3{font-size:16px;margin:0 0 4px;font-weight:600;}
+  .team-card .role{font-size:13.5px;color:var(--text-dim);margin-bottom:14px;}
+  .socials{display:flex;gap:10px;}
+  .socials a{
+    width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-dim);
+  }
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:60px;margin-top:56px;}
+  .contact-info{display:flex;flex-direction:column;gap:18px;}
+  .contact-row{display:flex;align-items:center;gap:12px;font-size:14.5px;color:var(--text-muted);}
+  .contact-row .ico{
+    width:32px;height:32px;border-radius:9px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
+  }
+  form{display:flex;flex-direction:column;gap:14px;}
+  .field{display:flex;flex-direction:column;gap:7px;}
+  .field label{font-size:13px;color:var(--text-dim);font-weight:500;}
+  .field input,.field textarea{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-sm);
+    padding:13px 14px;color:var(--text);font-size:14.5px;font-family:inherit;
+    outline:none;transition:border-color .2s;
+  }
+  .field input:focus,.field textarea:focus{border-color:var(--accent);}
+  .field textarea{resize:vertical;min-height:110px;}
+  form .btn{align-self:flex-start;margin-top:6px;}
+
+  /* FOOTER */
+  footer{margin-top:140px;border-top:1px solid var(--border-soft);padding:48px 0;}
+  .footer-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;flex-wrap:wrap;}
+  .footer-brand .logo{margin-bottom:10px;}
+  .footer-brand p{color:var(--text-dim);font-size:13.5px;margin:0;}
+  .footer-links{display:flex;gap:26px;}
+  .footer-links a{font-size:14px;color:var(--text-muted);}
+  .footer-bottom{
+    margin-top:36px;padding-top:24px;border-top:1px solid var(--border-soft);
+    display:flex;justify-content:space-between;color:var(--text-dim);font-size:12.5px;flex-wrap:wrap;gap:10px;
+  }
+
+  .section-head{max-width:620px;}
+
+  /* ENTRANCE ANIMATIONS */
+  .nav-reveal{
+    opacity:0;transform:translateY(-14px);
+    transition:opacity .55s cubic-bezier(.16,.8,.4,1), transform .55s cubic-bezier(.16,.8,.4,1);
+  }
+  body.in .nav-reveal{opacity:1;transform:translateY(0);}
+
+  .reveal{
+    opacity:0;transform:translateY(20px);
+    transition:opacity .7s cubic-bezier(.16,.8,.4,1), transform .7s cubic-bezier(.16,.8,.4,1);
+  }
+  body.in .reveal{opacity:1;transform:translateY(0);}
+  .reveal-d1{transition-delay:.05s;}
+  .reveal-d2{transition-delay:.16s;}
+  .reveal-d3{transition-delay:.28s;}
+  .reveal-d4{transition-delay:.4s;}
+  .reveal-d5{transition-delay:.52s;}
+
+  @media (prefers-reduced-motion: reduce){
+    .nav-reveal,.reveal{transition:none !important;opacity:1 !important;transform:none !important;}
+  }
+
+  @media (max-width:920px){
+    nav.links{display:none;}
+    .mobile-toggle{display:block;}
+    .grid-3,.grid-4,.steps{grid-template-columns:1fr;}
+    .step + .step{border-left:none;padding-left:0;border-top:1px solid var(--border-soft);padding-top:22px;}
+    .transform-grid{grid-template-columns:1fr;}
+    .t-arrow{transform:rotate(90deg);margin:4px auto;}
+    .product-card{flex-direction:column;}
+    .product-right{width:100%;}
+    .contact-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:32px;}
+    h2{font-size:28px;}
+    .footer-inner{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<header class="nav nav-reveal">
+  <div class="nav-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">O</span>
+      Operance.
+    </a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn btn-primary" href="#contact">Start a project</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow reveal reveal-d1">⚙ Custom software, thoughtfully engineered</span>
+    <h1 class="reveal reveal-d2">Stop running your business on workarounds.<br>
+      Start running it on <span class="hl">software that works.</span></h1>
+    <p class="lead reveal reveal-d3">We talk. We build it. It works. That's the whole pitch.</p>
+    <div class="hero-ctas reveal reveal-d4">
+      <a class="btn btn-primary" href="#contact">Get a free consultation →</a>
+      <a class="btn btn-ghost" href="#work">See our work</a>
+    </div>
+
+    <div class="transform reveal reveal-d5">
+      <div class="transform-grid">
+        <div class="t-col before">
+          <div class="t-label">Before</div>
+          <div class="t-items">
+            <div class="t-item">Spreadsheets</div>
+            <div class="t-item">Sticky notes</div>
+            <div class="t-item">Email chains</div>
+            <div class="t-item">Lost notes</div>
+          </div>
+        </div>
+        <div class="t-arrow">→</div>
+        <div class="t-col after">
+          <div class="t-label">After</div>
+          <div class="t-items">
+            <div class="t-item">One simple app</div>
+            <div class="t-item">Built around how your team actually works</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">About us</span>
+      <h2>A software studio focused on outcomes that compound.</h2>
+      <p class="lead">Operance Software is a custom development company helping teams streamline operations, automate workflows, and ship scalable digital products. From early prototypes to production platforms, we combine thoughtful design with reliable engineering — so the software we build keeps paying back long after launch.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon">◆</div>
+        <h3>Engineering quality</h3>
+        <p>Clean architecture, modern stacks, and reliable systems built to scale.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">▣</div>
+        <h3>Modern technology</h3>
+        <p>TypeScript, React, Node.js, PostgreSQL — the tools that ship real products.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">◎</div>
+        <h3>Partnership driven</h3>
+        <p>We work alongside your team, not above it. Long-term outcomes, not handoffs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What we do</span>
+      <h2>Problems we solve for you.</h2>
+      <p class="lead">We don't sell technology. We solve the day-to-day problems slowing your business down.</p>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-icon">▢</div>
+        <h3>Custom Software</h3>
+        <p>Off-the-shelf tools never quite fit. We build software shaped around how your business actually works.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">↻</div>
+        <h3>Process Automation</h3>
+        <p>Stop doing by hand what software can do for you. We automate the repetitive parts of your business.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">▥</div>
+        <h3>Web &amp; Mobile Apps</h3>
+        <p>Have an idea for a product? We help you turn it into something real your customers can use.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">◐</div>
+        <h3>HR &amp; People Tools</h3>
+        <p>Hiring, onboarding, time off, performance — all in one place instead of scattered spreadsheets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How we work</span>
+      <h2>A simple process, no black box.</h2>
+      <p class="lead">You'll always know where things stand and what happens next.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>We talk</h3>
+        <p>A real conversation about your business, your bottlenecks, and what a good outcome looks like.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>We design the solution</h3>
+        <p>We map out exactly what the software will do, in plain language, before we build a thing.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>We build it</h3>
+        <p>You see progress every week. No surprises, no months of silence, no scope creep.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>We support it</h3>
+        <p>We stick around — fixing, improving, and growing it with you as your business changes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAVOWORK - own product, short & proud -->
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Our own product</span>
+      <h2>We don't just build for clients. We build our own.</h2>
+    </div>
+    <div class="product-card">
+      <div class="product-left">
+        <div class="product-badge">
+          <span class="mark">B</span>
+          <span class="name">BravoWork</span>
+          <span class="tag">Built in-house</span>
+        </div>
+        <h3>An AI-driven HR platform, built from scratch by us.</h3>
+        <p>One smart candidate profile that gets matched with the right companies — instead of endless job boards and CVs. We designed, built, and shipped it ourselves, and we're proud of it.</p>
+        <div class="tech-tags">
+          <span class="tech-tag">Next.js</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">AWS</span>
+        </div>
+        <a class="btn btn-ghost" href="#contact">See how BravoWork works →</a>
+      </div>
+      <div class="product-right">
+        <div class="glow"></div>
+        <span class="match-pill">Match found ✦</span>
+        <div class="match-line"><span class="dot"></span> Candidate ↔ Company</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Team</span>
+      <h2>The people behind the product.</h2>
+      <p class="lead">A small, senior team of engineers, designers, and product thinkers who care about the craft as much as the outcome.</p>
+    </div>
+    <div class="grid-4">
+      <div class="card team-card">
+        <div class="avatar">AM</div>
+        <h3>Alex Marin</h3>
+        <div class="role">Founder &amp; CTO</div>
+        <div class="socials"><a href="#">in</a><a href="#">𝕏</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="avatar">SP</div>
+        <h3>Sara Petrov</h3>
+        <div class="role">Head of Product</div>
+        <div class="socials"><a href="#">in</a><a href="#">𝕏</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="avatar">DV</div>
+        <h3>Daniel Voss</h3>
+        <div class="role">Lead Engineer</div>
+        <div class="socials"><a href="#">in</a><a href="#">𝕏</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="avatar">MO</div>
+        <h3>Maya Okafor</h3>
+        <div class="role">Design Lead</div>
+        <div class="socials"><a href="#">in</a><a href="#">𝕏</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Contact</span>
+      <h2>Have a project in mind? Let's build it.</h2>
+      <p class="lead">Tell us a bit about what you're working on. We'll get back within one business day.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-row"><span class="ico">@</span> hello@operance.software</div>
+        <div class="contact-row"><span class="ico">☎</span> +1 (555) 010-1042</div>
+        <div class="contact-row"><span class="ico">⌖</span> Remote — working worldwide</div>
+      </div>
+      <form onsubmit="event.preventDefault(); this.querySelector('.btn').textContent='Message sent ✓';">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="you@company.com">
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea placeholder="Tell us about your project..."></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="logo" href="#top"><span class="logo-mark">O</span>Operance Software</a>
+        <p>Software that moves businesses forward.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Operance Software. All rights reserved.</span>
+      <span>Designed &amp; engineered in-house.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // trigger entrance animations once the page has painted
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => document.body.classList.add('in'));
+  });
+</script>
+</body>
+</html>
